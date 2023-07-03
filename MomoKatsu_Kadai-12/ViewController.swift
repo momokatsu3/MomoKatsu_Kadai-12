@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     // 税込金額結果用ラベル
     @IBOutlet weak var amountIncludingTax: UILabel!
 
-    let keyTaxRate = "TaxrRate"
+    let keyTaxRate = "TaxRate"
 
     override func viewDidLoad() {
         super.viewDidLoad()
