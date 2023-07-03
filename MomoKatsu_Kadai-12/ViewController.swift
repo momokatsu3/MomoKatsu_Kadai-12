@@ -16,23 +16,24 @@ class ViewController: UIViewController {
     // 税込金額結果用ラベル
     @IBOutlet weak var amountIncludingTax: UILabel!
 
-    let KeyTaxRate = "TaxrRate"
+    let keyTaxRate = "TaxRate"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //userDefaultsから取り出す時は以下のように記述する
-        if UserDefaults.standard.object(forKey: KeyTaxRate) != nil {
-            consumptionTaxRate.text! = UserDefaults.standard.object(forKey: KeyTaxRate) as! String
+
+        if let taxRateText = UserDefaults.standard.string(forKey: keyTaxRate) {
+            consumptionTaxRate.text = taxRateText
         }
+
         //print("viewDidLoad実行時：", consumptionTaxRate.text!)
     }
 
     // 計算ボタン押下時の処理
     @IBAction func tapCalcButton(sender: AnyObject) {
         // 税抜金額入力用テキストフィールドへの入力値がある場合
-        let excludingTax = (amountExcludingTax.text! as NSString).integerValue
+        let excludingTax = Int(amountExcludingTax.text ?? "") ?? 0
         // 消費税率入力用テキストフィールドへの入力値がある場合
-        let taxRate = (consumptionTaxRate.text! as NSString).floatValue
+        let taxRate = Float(consumptionTaxRate.text ?? "") ?? 0.0
 
         // 消費税込みの金額を計算
         let includingTax = Int( Float(excludingTax) * (1.0 + taxRate / 100.0) )
@@ -43,7 +44,7 @@ class ViewController: UIViewController {
 
     // 消費税率入力用テキストフィールドをタップした際の処理
     @IBAction func tapConsumptionTaxRate(sender: AnyObject) {
-        UserDefaults.standard.set(consumptionTaxRate.text, forKey: KeyTaxRate)
+        UserDefaults.standard.set(consumptionTaxRate.text, forKey: keyTaxRate)
         //print("消費税率入力用テキストフィールドをタップ時：", consumptionTaxRate.text!)
     }
 
